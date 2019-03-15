@@ -1,6 +1,7 @@
 package com.hes;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 
@@ -171,5 +172,10 @@ public class ypscraper {
     } finally {
       acceptNextAlert = true;
     }
+  }
+  public static void main(String[] args) throws Exception {
+      ypscraper y = new ypscraper();
+      y.setUp();
+      y.testInd();
   }
 }

@@ -18,6 +18,12 @@ repositories {
     }
 }
 
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
+
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     //compile group: 'org.sikuli', name: 'sikuli-api', version: '1.0.+'
@@ -29,8 +35,20 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.1'
+
+    extraLibs group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.+' , 'org.json:json:20171018' , 'com.googlecode.json-simple:json-simple:1.1.1','org.apache.commons:commons-csv:1.1'
+
+    //extraLibs1    'org.seleniumhq.selenium:selenium-java', 'org.apache.commons:commons-csv:1.1'
+    configurations.compile.extendsFrom(configurations.extraLibs)
+
 }
 test {
     systemProperties 'tests.browser': 'chrome'
+}
+
+jar {
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 

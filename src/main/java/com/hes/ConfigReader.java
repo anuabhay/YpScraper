@@ -1,5 +1,6 @@
 package com.hes;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -25,21 +26,34 @@ public class ConfigReader {
         JSONParser parser = new JSONParser();
         Configs config = null;
         try {
+            ClassLoader classLoader = ConfigReader.class.getClassLoader();
+            InputStream is = classLoader.getResourceAsStream("locations.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb_locations = new StringBuilder();
 
-            Object sub = parser.parse(new FileReader(
-                    "/work/anu/scrape-web/ypscrape/src/main/resources/locations.json"));
+            String line;
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb_locations.append(line);
+            }
+            is = classLoader.getResourceAsStream("types.json");
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+            StringBuilder sb_types = new StringBuilder();
 
-            Object type = parser.parse(new FileReader(
-                    "/work/anu/scrape-web/ypscrape/src/main/resources/types.json"));
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb_types.append(line);
+            }
+
+            Object sub = parser.parse(sb_locations.toString());
+            Object type = parser.parse(sb_types.toString());
 
             JSONObject jsonObject = (JSONObject) sub;
-
             ArrayList suburbs = (ArrayList)jsonObject.get("suburbs");
-
             jsonObject = (JSONObject) type;
-
             ArrayList types = (ArrayList)jsonObject.get("types");
-
             config = new Configs(suburbs,types);
 
         } catch (Exception e) {
