@@ -7,7 +7,7 @@
     
 How to run the Jar
 
-    java -cp -Dwebdriver.gecko.driver=$path_to+gekodriber/geckodriver com.hes.YPScraper
+    java -cp -Dwebdriver.gecko.driver=$path_to+gekodriber/geckodriver com.hes.YPScraper -t types.json -l locations.json
     
 ## List of suburbs
 https://zen10.com.au/melbourne-suburb-list/
