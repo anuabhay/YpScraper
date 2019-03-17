@@ -13,14 +13,6 @@ public class CVSWriter {
     private static String file_name = "/tmp/sample.csv";
     private static CSVPrinter csvPrinter = null;
 
-    public static void main(String[] args) throws IOException {
-        writeRecord("asss sfdfsdfdfsddsd");
-        writeRecord("xxx");
-        writeRecord("xxx1");
-        writeRecord("xxx2") ;
-        flush();
-    }
-
     public static void setName(String name){
         file_name = name;
     }
@@ -29,7 +21,6 @@ public class CVSWriter {
         if (csvPrinter == null) {
             try {
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(file_name));
-
                 csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
                         //.withHeader("Email"));
             } catch (Exception e) {
@@ -57,6 +48,15 @@ public class CVSWriter {
         }
     }
 
+    static void writeRecord(String name, String email, String phone, String address){
+        CSVPrinter csvPrinter = getPrinter();
+        try {
+            csvPrinter.printRecord(name, email, phone, address);
+
+        } catch (Exception e) {
+
+        }
+    }
 
     static void writeRecord(String email){
         CSVPrinter csvPrinter = getPrinter();
