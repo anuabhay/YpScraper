@@ -35,6 +35,8 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.1'
+    // https://mvnrepository.com/artifact/net.sourceforge.argparse4j/argparse4j
+    compile group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.2.0'
 
     extraLibs group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.+' , 'org.json:json:20171018' , 'com.googlecode.json-simple:json-simple:1.1.1','org.apache.commons:commons-csv:1.1'
 

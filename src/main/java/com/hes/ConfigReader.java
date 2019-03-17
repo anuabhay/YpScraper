@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.util.ArrayList;
+import java.nio.file.Paths;
 
 class Configs {
     ArrayList locations;
@@ -18,6 +19,25 @@ class Configs {
     }
 }
 public class ConfigReader {
+    static String locations = "locations.json";
+    static String types = "types.json";
+
+    public static String getTypes() {
+        return types;
+    }
+
+    public static void setTypes(String types) {
+        ConfigReader.types = types;
+    }
+
+    public static String getLocations() {
+        return locations;
+    }
+
+    public static void setLocations(String locations) {
+        ConfigReader.locations = locations;
+    }
+
     public static void main(String[] args) {
         loadConfig();
     }
@@ -26,8 +46,22 @@ public class ConfigReader {
         JSONParser parser = new JSONParser();
         Configs config = null;
         try {
+            //classLoader.getResource("").getPath()
             ClassLoader classLoader = ConfigReader.class.getClassLoader();
-            InputStream is = classLoader.getResourceAsStream("locations.json");
+            if ( Paths.get(locations).isAbsolute() == false)
+            {
+                locations = classLoader.getResource("").getPath()
+                        + "../resources/" + locations;
+            }
+
+            if ( Paths.get(types).isAbsolute() == false)
+            {
+                types = classLoader.getResource("").getPath()
+                        + "../resources/" + types;
+            }
+
+            //InputStream is = classLoader.getResourceAsStream(locations);
+            InputStream is = new FileInputStream(locations);
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb_locations = new StringBuilder();
@@ -37,7 +71,8 @@ public class ConfigReader {
             while ((line = br.readLine()) != null) {
                 sb_locations.append(line);
             }
-            is = classLoader.getResourceAsStream("types.json");
+            is = new FileInputStream(types);
+            //is = classLoader.getResourceAsStream(types);
             isr = new InputStreamReader(is);
             br = new BufferedReader(isr);
             StringBuilder sb_types = new StringBuilder();

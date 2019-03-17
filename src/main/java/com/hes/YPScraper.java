@@ -7,6 +7,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 
 import java.util.List;
@@ -47,7 +51,6 @@ public class YPScraper {
   public void testInd() throws Exception {
 
     CVSWriter.setName("./sample_a.csv");
-
     Configs config = ConfigReader.loadConfig();
     int type_count = 0;
     while (config.types.size() > type_count){
@@ -151,7 +154,32 @@ public class YPScraper {
       acceptNextAlert = true;
     }
   }
+
+  static String[] parse_args(String[] args){
+    ArgumentParser parser = ArgumentParsers.newArgumentParser("YPScraper")
+            .defaultHelp(true)
+            .description("Calculate checksum of given files.");
+    parser.addArgument("-l", "--locations")
+            .setDefault("locations.json")
+            .help("Locations file to be used");
+    parser.addArgument("-t", "--types")
+            .setDefault("types.json")
+            .help("Business Types file to be used");
+    Namespace ns = null;
+    try {
+      ns = parser.parseArgs(args);
+    } catch (ArgumentParserException e) {
+      parser.handleError(e);
+      System.exit(1);
+    }
+    return new String[]{(String)ns.get("locations"), (String)ns.get("types")};
+
+  }
   public static void main(String[] args) throws Exception {
+      String[] vals = parse_args(args);
+      ConfigReader.setLocations(vals[0]);
+      ConfigReader.setTypes(vals[1]);
+      //Configs config = ConfigReader.loadConfig();
       YPScraper y = new YPScraper();
       y.setUp();
       y.testInd();
