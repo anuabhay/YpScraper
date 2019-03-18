@@ -7,7 +7,7 @@
     
 How to run the Jar
 
-    java -cp -Dwebdriver.gecko.driver=$path_to+gekodriber/geckodriver com.hes.YPScraper -t types.json -l locations.json
+    java -Dwebdriver.gecko.driver=/work/anu/scrape-web/chromedriver_linux64/geckodriver -cp 1-1.0-SNAPSHOT.jar com.hes.YPScraper -t /work/anu/scrape-web/ypscrape/src/main/resources/types.json  -l /work/anu/scrape-web/ypscrape/src/main/resources/locations.json
     
 ## List of suburbs
 https://zen10.com.au/melbourne-suburb-list/
